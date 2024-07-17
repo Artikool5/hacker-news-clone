@@ -35,8 +35,12 @@ const Navigation = styled.nav`
 
 const NavigationList = styled.ul`
   display: flex;
-  flex-wrap: wrap;
   gap: 4px;
+  flex-wrap: wrap;
+  & > div {
+    display: flex;
+    gap: 4px;
+  }
 `;
 
 const NavigationItem = styled.li``;
@@ -79,12 +83,12 @@ function PageFooter() {
           <NavigationList>
             {navItems.map((link, i, thisArr) => {
               return (
-                <>
-                  <NavigationItem key={link.id}>
+                <div key={link.id}>
+                  <NavigationItem>
                     <Link href={link.url}>{link.name}</Link>
                   </NavigationItem>
                   {thisArr[i + 1] ? <Separetor>|</Separetor> : null}
-                </>
+                </div>
               );
             })}
           </NavigationList>
