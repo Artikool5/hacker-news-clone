@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 ul {
@@ -21,10 +22,6 @@ ul {
 body {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 10pt;
-}
-
-a:link {
-    color: #000000;
 }
 
 a:visited {
