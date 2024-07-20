@@ -19,6 +19,8 @@ export const FeedItem = styled.div`
 `;
 
 export const Index = styled.div`
+  min-width: 2ch;
+  text-align: end;
   color: #828282;
 `;
 
