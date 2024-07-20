@@ -42,7 +42,11 @@ const Logo = styled.img`
   border: 1px solid #ffffff;
 `;
 
-const Link = styled.a``;
+const Link = styled.a`
+  &:visited {
+    color: inherit;
+  }
+`;
 
 const Navigation = styled.nav`
   display: flex;

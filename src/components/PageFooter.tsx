@@ -45,7 +45,11 @@ const NavigationList = styled.ul`
 
 const NavigationItem = styled.li``;
 
-const Link = styled.a``;
+const Link = styled.a`
+  &:visited {
+    color: inherit;
+  }
+`;
 
 const Separetor = styled.span`
   color: #828282;
