@@ -15,7 +15,7 @@ const StyledPageContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  max-width: 1440px;
+  max-width: 1200px;
   width: 100%;
 `;
 
