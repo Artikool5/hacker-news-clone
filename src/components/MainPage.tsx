@@ -1,74 +1,70 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect } from 'react';
 import useFeedStore from '../store/feedStore';
-
-const StyledMainPage = styled.main`
-  padding-block: 8px;
-  padding-inline: 8px;
-  background-color: #f6f6ef;
-`;
-
-const Feed = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const FeedItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const Index = styled.div`
-  color: #828282;
-`;
-
-const Upvote = styled.img`
-  width: 10px;
-  height: 10px;
-
-  cursor: pointer;
-`;
-
-const FeedItemDescription = styled.div``;
-
-const FeedItemConteiner = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const StoryHeading = styled.h2``;
-
-const StoryDomain = styled.span`
-  color: #828282;
-  font-size: 10px;
-`;
-
-const StoryInfo = styled.span`
-  color: #828282;
-  font-size: 10px;
-`;
-
-const StoryScore = styled.span``;
-
-const StoryUser = styled.span``;
-
-const StoryAge = styled.span``;
-
-const StoryComments = styled.span``;
+import {
+  StyledMainPage,
+  Feed,
+  FeedItem,
+  Index,
+  Upvote,
+  FeedItemDescription,
+  FeedItemConteiner,
+  StoryHeading,
+  StoryDomain,
+  StoryInfo,
+  StoryScore,
+  StoryUser,
+  StoryAge,
+  StoryComments,
+  Pagination,
+  PaginationButton,
+} from './MainPage.style';
 
 function MainPage() {
+  const newsOnPage = useFeedStore((state) => state.newsOnPage);
   const feed = useFeedStore((state) => state.visibleFeed);
+  const currentPage = useFeedStore((state) => state.currentPage);
+  const maxPage = useFeedStore((state) => state.maxLoadedPage);
+  const getFeed = useFeedStore((state) => state.getFeed);
+  const updateFeed = useFeedStore((state) => state.updateFeed);
+  const getNewPageFeed = useFeedStore((state) => state.getNewPageFeed);
+  const getPrevPageFeed = useFeedStore((state) => state.getPrevPageFeed);
+  const getNextPageFeed = useFeedStore((state) => state.getNextPageFeed);
+
+  function handleNewFeed() {
+    if (maxPage === currentPage) {
+      fetch(`https://api.hnpwa.com/v0/newest/${currentPage + 1}.json`, { cache: 'no-cache' })
+        .then((r) => r.json())
+        .then((feed) => getNewPageFeed(feed))
+        .catch((reason) => console.error(reason));
+    } else getNextPageFeed();
+  }
+
+  function handlePrevFeed() {
+    getPrevPageFeed();
+  }
+
+  const fetchUpdateFeed = useCallback(() => {
+    fetch(`https://api.hnpwa.com/v0/newest/${currentPage}.json`, { cache: 'no-cache' })
+      .then((r) => r.json())
+      .then((feed) => updateFeed(feed))
+      .catch((reason) => console.error(reason));
+  }, [currentPage, updateFeed]);
+
+  useEffect(() => {
+    fetchUpdateFeed();
+    const updateTimer = setInterval(fetchUpdateFeed, 1000 * 60);
+
+    return () => clearInterval(updateTimer);
+  }, [getFeed, fetchUpdateFeed]);
 
   return (
     <StyledMainPage>
       <Feed>
         {feed.map((story, i) => {
+          const storyIndex = (currentPage - 1) * newsOnPage + i + 1;
           return (
             <FeedItem key={story.id}>
-              <Index>{i + 1}</Index>
+              <Index>{storyIndex}</Index>
               <Upvote src="https://news.ycombinator.com/triangle.svg" />
               <FeedItemDescription>
                 <FeedItemConteiner>
@@ -91,6 +87,13 @@ function MainPage() {
           );
         })}
       </Feed>
+      <Pagination>
+        <PaginationButton onClick={handlePrevFeed} disabled={currentPage < 2}>
+          Back
+        </PaginationButton>
+        <PaginationButton onClick={handleNewFeed}>More</PaginationButton>
+        <PaginationButton onClick={fetchUpdateFeed}>Refresh</PaginationButton>
+      </Pagination>
     </StyledMainPage>
   );
 }
