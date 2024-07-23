@@ -6,13 +6,11 @@ import PageContainer from './components/PageContainer';
 
 function App() {
   return (
-    <>
-      <PageContainer>
-        <PageHeader />
-        <MainPage />
-        <PageFooter />
-      </PageContainer>
-    </>
+    <PageContainer>
+      <PageHeader />
+      <MainPage />
+      <PageFooter />
+    </PageContainer>
   );
 }
 
