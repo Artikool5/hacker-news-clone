@@ -1,4 +1,4 @@
-import { StyledMainPage } from './MainPage.style';
+import { StyledMainPage } from './MainPage.styles';
 import NewsFeed from '../routes/NewsFeed';
 import NewsStory from '../routes/NewsStory';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';

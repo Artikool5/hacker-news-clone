@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { StyledPageFooter, FooterContent, Search, SearchLabel, SearchInput } from './PageFooter.styles';
+import { Navigation, NavigationList, NavigationItem, Separetor, Link } from './PageHeader.styles';
 
 const navItems = [
   { id: 1, name: 'Guidelines', url: 'newsguidelines' },
@@ -10,73 +11,6 @@ const navItems = [
   { id: 7, name: 'Apply to YC', url: 'apply' },
   { id: 8, name: 'Contact', url: 'mailto:hn@ycombinator.com' },
 ];
-
-const StyledPageFooter = styled.footer`
-  display: flex;
-  justify-content: center;
-
-  padding-block: 16px;
-  padding-inline: 8px;
-
-  background-color: #f6f6ef;
-  border-top: 3px solid #ff6600;
-`;
-
-const FooterContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const Navigation = styled.nav`
-  font-size: 12px;
-`;
-
-const NavigationList = styled.ul`
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  & > div {
-    display: flex;
-    gap: 4px;
-  }
-`;
-
-const NavigationItem = styled.li``;
-
-const Link = styled.a`
-  &:visited {
-    color: inherit;
-  }
-`;
-
-const Separetor = styled.span`
-  color: #828282;
-`;
-
-const Search = styled.form`
-  display: flex;
-  justify-content: center;
-`;
-
-const SearchLabel = styled.label`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  color: #828282;
-  flex-grow: 1;
-  @media (min-width: 768px) {
-    flex-grow: 0;
-  }
-`;
-
-const SearchInput = styled.input`
-  flex-grow: 1;
-  @media (min-width: 768px) {
-    flex-grow: 0;
-  }
-`;
 
 function PageFooter() {
   return (
