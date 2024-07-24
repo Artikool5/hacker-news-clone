@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface FeedItem {
+export interface IFeedItem {
   id: number;
   title: string;
   points?: number | null;
@@ -15,16 +15,16 @@ interface FeedItem {
 }
 
 interface State {
-  feed: FeedItem[];
-  visibleFeed: FeedItem[];
+  feed: IFeedItem[];
+  visibleFeed: IFeedItem[];
   currentPage: number;
   maxLoadedPage: number;
   newsOnPage: number;
 }
 
 interface Action {
-  updateFeed: (feed: FeedItem[]) => void;
-  getNewPageFeed: (feed: FeedItem[]) => void;
+  updateFeed: (feed: IFeedItem[]) => void;
+  getNewPageFeed: (feed: IFeedItem[]) => void;
   getPrevPageFeed: () => void;
   getNextPageFeed: () => void;
 }

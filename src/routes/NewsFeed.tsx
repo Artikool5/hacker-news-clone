@@ -1,22 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import {
-  FeedItem,
-  Index,
-  Upvote,
-  FeedItemDescription,
-  FeedItemConteiner,
-  StoryHeading,
-  StoryDomain,
-  StoryInfo,
-  StoryScore,
-  StoryUser,
-  StoryAge,
-  StoryComments,
-  Pagination,
-  PaginationButton,
-  StoryLink,
-} from './NewsFeed.styles';
+import FeedItem from '../components/FeedItem';
 import useFeedStore from '../store/feedStore';
+import { Pagination, PaginationButton } from './NewsFeed.styles';
 
 function NewsFeed() {
   const newsOnPage = useFeedStore((state) => state.newsOnPage);
@@ -59,30 +44,7 @@ function NewsFeed() {
     <>
       {feed.map((story, i) => {
         const storyIndex = (currentPage - 1) * newsOnPage + i + 1;
-        return (
-          <FeedItem key={story.id}>
-            <Index>{storyIndex}</Index>
-            <Upvote src="https://news.ycombinator.com/triangle.svg" />
-            <FeedItemDescription>
-              <FeedItemConteiner>
-                <StoryHeading>
-                  <StoryLink to={`news/${story.id}`}>{story.title}</StoryLink>
-                </StoryHeading>
-                {story.domain ? (
-                  <StoryDomain>
-                    (<a href={story.url}>{story.domain}</a>)
-                  </StoryDomain>
-                ) : null}
-              </FeedItemConteiner>
-              <FeedItemConteiner>
-                <StoryInfo>
-                  <StoryScore>{story.points}</StoryScore> points by <StoryUser>{story.user}</StoryUser>{' '}
-                  <StoryAge>{story.time_ago}</StoryAge> | <StoryComments>{story.comments_count}</StoryComments> comments
-                </StoryInfo>
-              </FeedItemConteiner>
-            </FeedItemDescription>
-          </FeedItem>
-        );
+        return <FeedItem key={story.id} story={story} storyIndex={storyIndex} />;
       })}
       <Pagination>
         <PaginationButton onClick={handlePrevFeed} disabled={currentPage < 2}>

@@ -1,21 +1,9 @@
 import { useCallback, useEffect } from 'react';
-import { Button, CommentSection, Return } from './NewsStory.styles';
-import {
-  FeedItem,
-  Upvote,
-  FeedItemDescription,
-  FeedItemConteiner,
-  StoryHeading,
-  StoryDomain,
-  StoryInfo,
-  StoryScore,
-  StoryUser,
-  StoryAge,
-  StoryComments,
-} from './NewsFeed.styles';
-import useStoryStore from '../store/storyStore';
-import Comment from '../components/Comment';
 import { useParams } from 'react-router-dom';
+import Comment from '../components/Comment';
+import FeedItem from '../components/FeedItem';
+import useStoryStore from '../store/storyStore';
+import { Button, CommentSection, Return } from './NewsStory.styles';
 
 function NewsStory() {
   const story = useStoryStore((state) => state.story);
@@ -45,29 +33,7 @@ function NewsStory() {
   return (
     <>
       <Return to="/">&larr; Return</Return>
-
-      <FeedItem>
-        <Upvote src="https://news.ycombinator.com/triangle.svg" />
-        <FeedItemDescription>
-          <FeedItemConteiner>
-            <StoryHeading>
-              <a href={story.url}>{story.title}</a>
-            </StoryHeading>
-            {story.domain ? (
-              <StoryDomain>
-                (<a href={story.url}>{story.domain}</a>)
-              </StoryDomain>
-            ) : null}
-          </FeedItemConteiner>
-          <FeedItemConteiner>
-            <StoryInfo>
-              <StoryScore>{story.points}</StoryScore> points by <StoryUser>{story.user}</StoryUser>{' '}
-              <StoryAge>{story.time_ago}</StoryAge> | <StoryComments>{story.comments_count}</StoryComments> comments
-            </StoryInfo>
-          </FeedItemConteiner>
-        </FeedItemDescription>
-      </FeedItem>
-
+      <FeedItem story={story} />
       <CommentSection>
         <Button onClick={fetchStory}>Refresh</Button>
         {story.comments.map((comment) => {
