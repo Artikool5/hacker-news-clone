@@ -1,4 +1,3 @@
-import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 const StyledPageContainer = styled.div`
@@ -18,6 +17,7 @@ const ContentContainer = styled.div`
   max-width: 1200px;
   width: 100%;
 `;
+import { PropsWithChildren } from 'react';
 
 function PageContainer(props: PropsWithChildren) {
   return (

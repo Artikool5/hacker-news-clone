@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledMainPage } from './MainPage.style';
 import NewsFeed from '../routes/NewsFeed';
 import NewsStory from '../routes/NewsStory';
