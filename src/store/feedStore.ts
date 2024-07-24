@@ -23,7 +23,6 @@ interface State {
 }
 
 interface Action {
-  getFeed: (feed: FeedItem[]) => void;
   updateFeed: (feed: FeedItem[]) => void;
   getNewPageFeed: (feed: FeedItem[]) => void;
   getPrevPageFeed: () => void;
@@ -37,8 +36,6 @@ const useFeedStore = create<Action & State>()(
     currentPage: 1,
     maxLoadedPage: 1,
     newsOnPage: 30,
-
-    getFeed: (feed) => set(() => ({ feed, visibleFeed: feed })),
 
     updateFeed: (newFeed) =>
       set(({ feed, currentPage, newsOnPage, maxLoadedPage }) => {

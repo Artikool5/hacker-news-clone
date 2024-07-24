@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import {
-  Feed,
   FeedItem,
   Index,
   Upvote,
@@ -24,7 +23,6 @@ function NewsFeed() {
   const feed = useFeedStore((state) => state.visibleFeed);
   const currentPage = useFeedStore((state) => state.currentPage);
   const maxPage = useFeedStore((state) => state.maxLoadedPage);
-  const getFeed = useFeedStore((state) => state.getFeed);
   const updateFeed = useFeedStore((state) => state.updateFeed);
   const getNewPageFeed = useFeedStore((state) => state.getNewPageFeed);
   const getPrevPageFeed = useFeedStore((state) => state.getPrevPageFeed);
@@ -55,10 +53,10 @@ function NewsFeed() {
     const updateTimer = setInterval(fetchUpdateFeed, 1000 * 60);
 
     return () => clearInterval(updateTimer);
-  }, [getFeed, fetchUpdateFeed]);
+  }, [fetchUpdateFeed]);
 
   return (
-    <Feed>
+    <>
       {feed.map((story, i) => {
         const storyIndex = (currentPage - 1) * newsOnPage + i + 1;
         return (
@@ -93,7 +91,7 @@ function NewsFeed() {
         <PaginationButton onClick={handleNewFeed}>More</PaginationButton>
         <PaginationButton onClick={fetchUpdateFeed}>Refresh</PaginationButton>
       </Pagination>
-    </Feed>
+    </>
   );
 }
 
