@@ -1,6 +1,6 @@
+import Comment from '../components/Comment';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Comment from '../components/Comment';
 import FeedItem from '../components/FeedItem';
 import useStoryStore from '../store/storyStore';
 import { Button, CommentSection, Return } from './NewsStory.styles';
@@ -33,7 +33,8 @@ function NewsStory() {
   return (
     <>
       <Return to="/">&larr; Return</Return>
-      <FeedItem story={story} />
+
+      <FeedItem story={story} needLink />
       <CommentSection>
         <Button onClick={fetchStory}>Refresh</Button>
         {story.comments.map((comment) => {

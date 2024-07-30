@@ -1,90 +1,25 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-
-export interface IFeedItem {
-  id: number;
-  title: string;
-  points?: number | null;
-  user?: string | null;
-  time: number;
-  time_ago: string;
-  comments_count: number;
-  type: string;
-  url?: string;
-  domain?: string;
-}
+import { Item } from './storyStore';
 
 interface State {
-  feed: IFeedItem[];
-  visibleFeed: IFeedItem[];
-  currentPage: number;
-  maxLoadedPage: number;
+  feed: Item[];
   newsOnPage: number;
 }
 
 interface Action {
-  updateFeed: (feed: IFeedItem[]) => void;
-  getNewPageFeed: (feed: IFeedItem[]) => void;
-  getPrevPageFeed: () => void;
-  getNextPageFeed: () => void;
+  updateFeed: (feed: Item[]) => void;
 }
 
 const useFeedStore = create<Action & State>()(
   devtools((set) => ({
     feed: [],
-    visibleFeed: [],
-    currentPage: 1,
-    maxLoadedPage: 1,
-    newsOnPage: 30,
+    newsOnPage: 100,
 
     updateFeed: (newFeed) =>
-      set(({ feed, currentPage, newsOnPage, maxLoadedPage }) => {
-        let updatedFeed, firstStory, lastStory;
-
-        if (currentPage === 1) {
-          updatedFeed = [...newFeed, ...feed.slice(newsOnPage)];
-        } else if (currentPage === maxLoadedPage && currentPage > 1) {
-          updatedFeed = [...feed.slice(0, -newsOnPage), ...newFeed];
-        } else {
-          lastStory = newsOnPage * (currentPage - 1);
-          firstStory = lastStory + newsOnPage;
-
-          updatedFeed = [...feed.slice(0, lastStory), ...newFeed, ...feed.slice(firstStory)];
-        }
-
+      set(() => {
         return {
-          visibleFeed: newFeed,
-          feed: updatedFeed,
-        };
-      }),
-
-    getNewPageFeed: (newFeed) =>
-      set(({ feed, currentPage }) => ({
-        feed: [...feed, ...newFeed],
-        visibleFeed: newFeed,
-        currentPage: currentPage + 1,
-        maxLoadedPage: currentPage + 1,
-      })),
-
-    getPrevPageFeed: () =>
-      set(({ currentPage, feed, newsOnPage }) => {
-        const firstStory = currentPage * newsOnPage - 2 * newsOnPage;
-        const lastStory = currentPage * newsOnPage - newsOnPage;
-        return currentPage < 2
-          ? {}
-          : {
-              visibleFeed: feed.slice(firstStory, lastStory),
-              currentPage: currentPage - 1,
-            };
-      }),
-
-    getNextPageFeed: () =>
-      set(({ currentPage, feed, newsOnPage }) => {
-        const firstStory = currentPage * newsOnPage;
-        const lastStory = currentPage * newsOnPage * 2;
-        return {
-          visibleFeed: feed.slice(firstStory, lastStory),
-          currentPage: currentPage + 1,
+          feed: newFeed,
         };
       }),
   })),

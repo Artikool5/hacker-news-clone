@@ -1,4 +1,3 @@
-import { IFeedItem } from '@/store/feedStore';
 import { Item } from '@/store/storyStore';
 import {
   FeedItemConteiner,
@@ -17,29 +16,26 @@ import {
 } from './FeedItem.styles';
 
 interface FeedItemProps {
-  story: IFeedItem | Item;
+  story: Item;
   storyIndex?: number;
+  needLink: boolean;
 }
 
-function FeedItem({ story, storyIndex }: FeedItemProps) {
-  const isStoryItem = (story: IFeedItem | Item): story is Item => {
-    return 'comments' in story;
-  };
-
+function FeedItem({ story, storyIndex, needLink }: FeedItemProps) {
   return (
     <StyledFeedItem>
-      {!storyIndex ? null : <Index>{storyIndex}</Index>}
+      {storyIndex && <Index>{storyIndex}</Index>}
       <Upvote src="https://news.ycombinator.com/triangle.svg" />
       <FeedItemDescription>
         <FeedItemConteiner>
           <StoryHeading>
-            {isStoryItem(story) ? (
+            {needLink ? (
               <a href={story.url}>{story.title}</a>
             ) : (
               <StoryLink to={`news/${story.id}`}>{story.title}</StoryLink>
             )}
           </StoryHeading>
-          {!story.domain ? null : (
+          {story.domain && (
             <StoryDomain>
               (<a href={story.url}>{story.domain}</a>)
             </StoryDomain>

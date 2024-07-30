@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledComment = styled.div<{ $indentLevel: number }>`
-  display: flex;
-  flex-direction: column;
   padding-top: 16px;
-  padding-left: ${({ $indentLevel }) => `${$indentLevel * 32}px`};
+  padding-left: ${({ $indentLevel }) => $indentLevel && '32px'};
 `;
 
 export const CommentInfo = styled.div`

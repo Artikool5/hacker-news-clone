@@ -21,6 +21,8 @@ export const CommentSection = styled.section`
 `;
 
 export const Button = styled.button`
+  display: flex;
+  align-items: center;
   padding-block: 4px;
   padding-inline: 12px;
   width: fit-content;
