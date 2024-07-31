@@ -1,7 +1,8 @@
-import Comment from '../components/Comment';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Comment from '../components/Comment';
 import FeedItem from '../components/FeedItem';
+import SkeletonLoader from '../components/SkeletonLoader';
 import useStoryStore from '../store/storyStore';
 import { Button, CommentSection, Return } from './NewsStory.styles';
 
@@ -10,6 +11,7 @@ function NewsStory() {
   const getStory = useStoryStore((state) => state.getStory);
   const reset = useStoryStore((state) => state.reset);
   const storyId = useParams<{ id: string }>();
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   const fetchStory = useCallback(() => {
     fetch(`https://api.hnpwa.com/v0/item/${storyId.id}.json`)
@@ -17,7 +19,8 @@ function NewsStory() {
       .then((data) => {
         getStory(data);
       })
-      .catch((reason) => console.error(reason));
+      .catch((reason) => console.error(reason))
+      .finally(() => setIsFirstLoading(false));
   }, [getStory, storyId.id]);
 
   useEffect(() => {
@@ -29,6 +32,16 @@ function NewsStory() {
       reset();
     };
   }, [fetchStory, reset]);
+
+  if (isFirstLoading)
+    return (
+      <>
+        <SkeletonLoader amount={1} />
+        <CommentSection>
+          <SkeletonLoader amount={15} />
+        </CommentSection>
+      </>
+    );
 
   return (
     <>

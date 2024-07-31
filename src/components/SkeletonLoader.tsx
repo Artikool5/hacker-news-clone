@@ -1,11 +1,12 @@
-import { Container, Index, Skeleton, SkeletonSubText, SkeletonText } from './SkeletonLoader.styles';
+import { Container, Index, Skeleton, SkeletonText } from './SkeletonLoader.styles';
 
 interface SkeletonLoaderProps {
   hasIndex?: boolean;
+  amount: number;
 }
 
-function SkeletonLoader({ hasIndex }: SkeletonLoaderProps) {
-  const length = Array<boolean>(100).fill(false);
+function SkeletonLoader({ hasIndex, amount }: SkeletonLoaderProps) {
+  const length = Array<boolean>(amount).fill(false);
   return (
     <>
       {length.map((_, i) => {
@@ -13,10 +14,8 @@ function SkeletonLoader({ hasIndex }: SkeletonLoaderProps) {
           <Container key={i}>
             {hasIndex && <Index>{i + 1}</Index>}
             <Skeleton>
-              <SkeletonText>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit debitis inventore!
-              </SkeletonText>
-              <SkeletonSubText>Lorem ipsum dolor sit amet consectetur adipisicing!</SkeletonSubText>
+              <SkeletonText $height={16} $width={60} />
+              <SkeletonText $height={12} $width={35} />
             </Skeleton>
           </Container>
         );

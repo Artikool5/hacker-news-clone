@@ -19,14 +19,15 @@ export const Skeleton = styled.div`
   padding-left: 16px;
 `;
 
-export const SkeletonText = styled.div`
+export const SkeletonText = styled.div<{ $height: number; $width: number }>`
   background-color: #828282;
   color: transparent;
-  width: fit-content;
   cursor: default;
 
-  animation: loading 1s linear infinite alternate;
+  width: ${({ $width }) => `${$width}ch`};
+  height: ${({ $height }) => `${$height}px`};
 
+  animation: loading 1s linear infinite alternate;
   @keyframes loading {
     0% {
       background-color: hsl(200, 20%, 80%);
