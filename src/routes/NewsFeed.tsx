@@ -18,7 +18,7 @@ function NewsFeed() {
     };
   }, [fetchFeed]);
 
-  if (firstLoading) return <SkeletonLoader hasIndex />;
+  if (firstLoading) return <SkeletonLoader amount={50} hasIndex />;
 
   return (
     <>
